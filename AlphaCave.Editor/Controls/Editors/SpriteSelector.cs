@@ -74,7 +74,12 @@ namespace AlphaCave.Editor.Controls.Editors
                     page.AutoScrollPosition = new Point(v.scrollX, v.scrollY);
                 };
 
-                page.Scroll += (s,e) =>
+                page.MouseWheel += (s, e) =>
+                {
+                    v.scrollY = page.VerticalScroll.Value;
+                };
+
+                page.Scroll += (s, e) =>
                 {
                     v.scrollX = page.HorizontalScroll.Value;
                     v.scrollY = page.VerticalScroll.Value;

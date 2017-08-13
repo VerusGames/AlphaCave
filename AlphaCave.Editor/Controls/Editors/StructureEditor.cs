@@ -37,6 +37,9 @@ namespace AlphaCave.Editor.Controls.Editors
             var southMap = Object.SouthMap.CreateBitmap(spriteSelector1.SpriteSheets);
             var westMap = Object.WestMap.CreateBitmap(spriteSelector1.SpriteSheets);
 
+            northMap.Save("north.png");
+            southMap.Save("south.png");
+
             EngeniousGame game = new EngeniousGame();
             game.ShowStructure(Object.Size, Object.Height, northMap, eastMap, southMap, westMap);
         }

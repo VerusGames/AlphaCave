@@ -142,6 +142,9 @@ namespace AlphaCave.Editor.Controls.Editors
 
             foreach(var index in selectedTiles)
             {
+                if (index.X < 0 || index.Y < 0)
+                    continue;
+
                 layerSelector.SelectedLayer.Sprites[index.X, index.Y] = new SpriteObject(selector.SelectedSprite, selector.SelectedSpriteSheet);
             }
             Invalidate();
