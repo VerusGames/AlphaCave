@@ -57,7 +57,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Editors\IObjectEditor.cs" />
+    <Compile Include="Controls\Editors\LayerSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Editors\LayerSelector.Designer.cs">
+      <DependentUpon>LayerSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteEditor.Designer.cs">
+      <DependentUpon>SpriteEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteSelector.Designer.cs">
+      <DependentUpon>SpriteSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Editors\SpriteView.Designer.cs">
+      <DependentUpon>SpriteView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Editors\StructureEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Editors\StructureEditor.Designer.cs">
+      <DependentUpon>StructureEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ObjectList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ObjectList.Designer.cs">
+      <DependentUpon>ObjectList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Debugger\EngeniousGame.cs" />
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Forms\Dialogs\SizeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Dialogs\SizeDialog.Designer.cs">
+      <DependentUpon>SizeDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\IMainShell.cs" />
     <Compile Include="Forms\MainShell.cs">
       <SubType>Form</SubType>
@@ -65,9 +109,33 @@
     <Compile Include="Forms\MainShell.Designer.cs">
       <DependentUpon>MainShell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\IEditorObject.cs" />
+    <Compile Include="Objects\StructureObject.cs" />
+    <Compile Include="Objects\TextureMap.cs" />
     <Compile Include="Presenters\MainShellPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Editors\LayerSelector.resx">
+      <DependentUpon>LayerSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Editors\SpriteEditor.resx">
+      <DependentUpon>SpriteEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Editors\SpriteSelector.resx">
+      <DependentUpon>SpriteSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Editors\SpriteView.resx">
+      <DependentUpon>SpriteView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Editors\StructureEditor.resx">
+      <DependentUpon>StructureEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ObjectList.resx">
+      <DependentUpon>ObjectList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Dialogs\SizeDialog.resx">
+      <DependentUpon>SizeDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainShell.resx">
       <DependentUpon>MainShell.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +162,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Spritesheets\TileSheetDungeon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Spritesheets\TileSheetIndoor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Spritesheets\TileSheetOutdoor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlphaCave.Core\AlphaCave.Core.csproj">
+      <Project>{5f1edfb7-1e98-45b2-b6ad-90b3cf58c097}</Project>
+      <Name>AlphaCave.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\engenious.0.1.8\build\engenious.targets" Condition="Exists('..\packages\engenious.0.1.8\build\engenious.targets')" />

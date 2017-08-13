@@ -14,6 +14,7 @@ namespace AlphaCave.Editor.Presenters
         public MainShellPresenter(IMainShell shell)
         {
             this.shell = shell;
+            shell.OnObjectSelected += (o) => shell.ShowEditor(o);
         }
     }
 }
