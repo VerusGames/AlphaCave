@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaCave.Core", "AlphaCave.Core\AlphaCave.Core.csproj", "{5F1EDFB7-1E98-45B2-B6AD-90B3CF58C097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaCave", "AlphaCave\AlphaCave.csproj", "{AD4440E7-52CA-4E8E-A62B-1635C8D3F2B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaCave.Editor", "AlphaCave.Editor\AlphaCave.Editor.csproj", "{8011A9E4-EFFF-4FB4-BD3A-47D0A34446AD}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F1EDFB7-1E98-45B2-B6AD-90B3CF58C097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1EDFB7-1E98-45B2-B6AD-90B3CF58C097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1EDFB7-1E98-45B2-B6AD-90B3CF58C097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1EDFB7-1E98-45B2-B6AD-90B3CF58C097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD4440E7-52CA-4E8E-A62B-1635C8D3F2B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD4440E7-52CA-4E8E-A62B-1635C8D3F2B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD4440E7-52CA-4E8E-A62B-1635C8D3F2B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD4440E7-52CA-4E8E-A62B-1635C8D3F2B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8011A9E4-EFFF-4FB4-BD3A-47D0A34446AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8011A9E4-EFFF-4FB4-BD3A-47D0A34446AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8011A9E4-EFFF-4FB4-BD3A-47D0A34446AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8011A9E4-EFFF-4FB4-BD3A-47D0A34446AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
