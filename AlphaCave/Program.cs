@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaCave.Core.Maps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace AlphaCave
     {
         public static void Main()
         {
+            AlphaCaveGame game = new AlphaCaveGame();
 
+            game.Run();
         }
     }
 }

@@ -48,8 +48,8 @@ namespace AlphaCave.Editor.Forms.Dialogs
         {
             base.OnLoad(e);
             numericUpDown_height.ValueChanged += (s, _) => valueHeight = (int)numericUpDown_height.Value;
-            numericUpDown_x.ValueChanged += (s, _) => valueSize.X = (int)numericUpDown_x.Value;
-            numericUpDown_y.ValueChanged += (s, _) => valueSize.Y = (int)numericUpDown_y.Value;
+            numericUpDown_x.ValueChanged += (s, _) => valueSize.X = (short)numericUpDown_x.Value;
+            numericUpDown_y.ValueChanged += (s, _) => valueSize.Y = (short)numericUpDown_y.Value;
         }
 
         private void button_ok_Click(object sender, EventArgs e)

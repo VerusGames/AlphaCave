@@ -12,13 +12,35 @@ namespace AlphaCave.Core
     /// </summary>
     public struct Index2
     {
-        public int X;
-        public int Y;
+        public short X;
+        public short Y;
 
-        public Index2(int x, int y)
+        public Index2(short x, short y)
         {
             X = x;
             Y = y;
+        }
+        
+        //TODO: Throw exception if too big!
+        public Index2(int x, int y)
+        {
+            X = (short)x;
+            Y = (short)y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X << 16 & Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Index2 index)
+            {
+                return index.X == X && index.Y == Y;
+            }
+
+            return false;
         }
     }
 }
