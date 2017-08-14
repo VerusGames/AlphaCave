@@ -10,5 +10,6 @@ namespace AlphaCave.Editor
     public class Delegates
     {
         public delegate void ObjectSelectHandler(IEditorObject selectedObject);
+        public delegate void SenderHandler(object sender);
     }
 }

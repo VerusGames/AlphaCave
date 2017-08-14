@@ -29,21 +29,26 @@ namespace AlphaCave.Editor.Controls
 
 
         public event EventHandler OnObjectSelect;
+        public event EventHandler SelectionChanged;
 
         public ObjectList()
         {
             InitializeComponent();
+
+            
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            //EditorObjects.CollectionChanged += (s, _) => RecalculateList();
+            EditorObjects.CollectionChanged += (s, _) => RecalculateList();
             listView.ItemSelectionChanged += (s, _) =>
             {
                 if(listView?.SelectedItems?.Count > 0)
                     OnObjectSelect?.Invoke(this, EventArgs.Empty);
+
+                SelectionChanged?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -64,9 +69,6 @@ namespace AlphaCave.Editor.Controls
             {
                 var structureObject = new StructureObject("Struktur", new Core.Index2(sizeDialog.ValueSize.X, sizeDialog.ValueSize.Y), sizeDialog.ValueHeight);
                 EditorObjects.Add(structureObject);
-                var item = new ListViewItem(structureObject.Name) { Tag = structureObject };
-                listView.Items.Add(item);
-                item.BeginEdit();
             }
         }
     }

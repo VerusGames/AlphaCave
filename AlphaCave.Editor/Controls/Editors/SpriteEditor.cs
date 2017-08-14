@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using AlphaCave.Core;
 using AlphaCave.Editor.Objects;
 using System.IO;
+using AlphaCave.Editor.Manager;
+using System.Drawing.Imaging;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
@@ -25,7 +27,7 @@ namespace AlphaCave.Editor.Controls.Editors
 
         public TextureMap TextureMap { get; private set; }
 
-        Dictionary<string, Bitmap> SpriteSheets { get => selector.SpriteSheets; }
+        Dictionary<string, Bitmap> SpriteSheets { get => SpritesheetManager.Instance.Spritesheets; }
 
         LayerSelector layerSelector;
 
@@ -69,7 +71,7 @@ namespace AlphaCave.Editor.Controls.Editors
                     {
                         var sObject = TextureMap.Layers[l].Sprites[x, y];
 
-                        if (sObject == null || sObject.SpriteSheet == null)
+                        if (sObject == null || String.IsNullOrEmpty(sObject.SpriteSheet))
                             continue;
 
                         var sheet = SpriteSheets[sObject.SpriteSheet];
@@ -81,10 +83,29 @@ namespace AlphaCave.Editor.Controls.Editors
 
             if(isPainting)
             {
-                foreach(var tile in selectedTiles)
+
+                if (String.IsNullOrEmpty(selector.SelectedSpriteSheet))
+                    return;
+
+                ColorMatrix matrix = new ColorMatrix();
+
+                //set the opacity  
+                matrix.Matrix33 = 0.5f;
+
+                //create image attributes  
+                ImageAttributes attributes = new ImageAttributes();
+
+                //set the color(opacity) of the image  
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                foreach (var tile in selectedTiles)
                 {
                     var pen = new Pen(Color.FromArgb(100, Color.Blue));
-                    e.Graphics.DrawRectangle(pen, new Rectangle(tile.X * 16 * scaling, tile.Y * 16 * scaling, 16 * scaling, 16 * scaling));
+                    var x = tile.X;
+                    var y = tile.Y;
+                    //e.Graphics.DrawRectangle(pen, new Rectangle(tile.X * 16 * scaling, tile.Y * 16 * scaling, 16 * scaling, 16 * scaling));
+
+                    e.Graphics.DrawImage(SpritesheetManager.Instance.Spritesheets[selector.SelectedSpriteSheet], new Rectangle(x * 16 * scaling, y * 16 * scaling, 16 * scaling, 16 * scaling), selector.SelectedSprite.X * 17, selector.SelectedSprite.Y * 17, 16, 16, GraphicsUnit.Pixel, attributes);
                 }
             }
 
@@ -128,7 +149,8 @@ namespace AlphaCave.Editor.Controls.Editors
             if (xPos >= sprites.GetLength(0) || yPos >= sprites.GetLength(1))
                 return;
 
-            selectedTiles.Add(new Index2(xPos, yPos));
+            if(selectedTiles.Count(t => t.X == xPos && t.Y == yPos)==0)
+                selectedTiles.Add(new Index2(xPos, yPos));
 
             Invalidate();
         }

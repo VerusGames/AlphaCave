@@ -11,6 +11,7 @@ namespace AlphaCave.Core.Maps
 
         private readonly Tile[] Tiles;
 
+
         public const byte CHUNKSIZE_X = 64;
         public const byte CHUNKSIZE_Y = 64;
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using AlphaCave.Core;
+using AlphaCave.Editor.Manager;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
@@ -24,7 +25,6 @@ namespace AlphaCave.Editor.Controls.Editors
 
         List<SpriteView> spriteViews = new List<SpriteView>();
 
-        public Dictionary<string, Bitmap> SpriteSheets { get; set; } = new Dictionary<string, Bitmap>();
 
         public SpriteSelector()
         {
@@ -41,13 +41,10 @@ namespace AlphaCave.Editor.Controls.Editors
 
         private void LoadSpritesheets()
         {
-            foreach(var file in Directory.EnumerateFiles(FolderPath, "*.png"))
+            foreach(var sheet in SpritesheetManager.Instance.Spritesheets)
             {
-                var sheet = (Bitmap)Image.FromFile(file);
-                var sheetName = Path.GetFileNameWithoutExtension(file);
-                SpriteSheets.Add(sheetName, sheet);
 
-                var v = new SpriteView(sheet, 16, 1);
+                var v = new SpriteView(sheet.Value, 16, 1);
                 spriteViews.Add(v);
 
                 v.SelectedSpriteChanged += (s, e) =>
@@ -58,12 +55,12 @@ namespace AlphaCave.Editor.Controls.Editors
                             sheetView.SelectedSprite = null;
                     }
 
-                    SelectedSpriteSheet = sheetName;
+                    SelectedSpriteSheet = sheet.Key;
                     SelectedSprite = (Index2)v.SelectedSprite;
                     SelectedSpriteChanged?.Invoke(this, EventArgs.Empty);
                 };
 
-                var page = new TabPage(sheetName);
+                var page = new TabPage(sheet.Key);
                 page.AutoScroll = true;
                 page.Controls.Add(v);
 

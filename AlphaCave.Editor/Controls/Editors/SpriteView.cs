@@ -58,7 +58,7 @@ namespace AlphaCave.Editor.Controls.Editors
             {
                 // Zeichnen des Auswahl-Rectangles
                 e.Graphics.DrawRectangle(selectionPen, 
-                    SelectedSprite.Value.X * ((SpriteSize + SpriteSpacing)*scaling), SelectedSprite.Value.Y * ((SpriteSize + SpriteSpacing) * scaling),
+                    (SelectedSprite.Value.X * ((SpriteSize + SpriteSpacing)*scaling)) - (1 * scaling), (SelectedSprite.Value.Y * ((SpriteSize + SpriteSpacing) * scaling))-(1*scaling),
                     (SpriteSize + SpriteSpacing) * scaling, (SpriteSize + SpriteSpacing) * scaling);
             }
         }

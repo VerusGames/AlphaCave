@@ -109,6 +109,8 @@
     <Compile Include="Forms\MainShell.Designer.cs">
       <DependentUpon>MainShell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manager\SpritesheetManager.cs" />
+    <Compile Include="Objects\EditorObject.cs" />
     <Compile Include="Objects\IEditorObject.cs" />
     <Compile Include="Objects\StructureObject.cs" />
     <Compile Include="Objects\TextureMap.cs" />

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,12 @@ namespace AlphaCave.Editor.Objects
 
         public Index2 Size { get; private set; }
 
-        public TextureMap(Index2 size)
+        public TextureMap(Index2 size, bool addStartingLayer = true)
         {
             Size = size;
-            AddLayer();
+
+            if (addStartingLayer)
+                AddLayer();
         }
 
         public TextureLayer AddLayer(string name = null)
@@ -29,6 +32,26 @@ namespace AlphaCave.Editor.Objects
             var layer = new TextureLayer(Size, name);
             Layers.Add(layer);
             return layer;
+        }
+
+        public void Serialize(BinaryWriter bw)
+        {
+            bw.Write(Size.X);
+            bw.Write(Size.Y);
+            bw.Write(Layers.Count);
+            for (int i = 0; i < Layers.Count; i++)
+                Layers[i].Serialize(bw);
+        }
+
+        public static TextureMap Deserialize(BinaryReader br)
+        {
+            var sizeX = br.ReadInt16();
+            var sizeY = br.ReadInt16();
+            var layerCount = br.ReadInt32();
+            var texMap = new TextureMap(new Index2(sizeX, sizeY), false);
+            for (int i = 0; i < layerCount; i++)
+                texMap.Layers.Add(TextureLayer.Deserialize(br));
+            return texMap;
         }
 
         public Bitmap CreateBitmap(Dictionary<string, Bitmap> spriteSheets)
@@ -70,9 +93,42 @@ namespace AlphaCave.Editor.Objects
         public TextureLayer(Index2 size, string name)
         {
             Sprites = new SpriteObject[size.X, size.Y];
+            for (int x = 0; x < Sprites.GetLength(0); x++)
+            {
+                for (int y = 0; y < Sprites.GetLength(1); y++)
+                    Sprites[x, y] = new SpriteObject(new Index2(0, 0), "");
+            }
             Name = name;
         }
 
+        public void Serialize(BinaryWriter bw)
+        {
+            bw.Write(Name);
+            bw.Write(Sprites.GetLength(0));
+            bw.Write(Sprites.GetLength(1));
+            for(int x = 0; x < Sprites.GetLength(0); x++)
+            {
+                for (int y = 0; y < Sprites.GetLength(1); y++)
+                    Sprites[x, y].Serialize(bw);
+            }
+        }
+
+        public static TextureLayer Deserialize(BinaryReader br)
+        {
+            var name = br.ReadString();
+            var sizeX = br.ReadInt32();
+            var sizeY = br.ReadInt32();
+
+            var tl = new TextureLayer(new Index2(sizeX, sizeY), name);
+
+            for (int x = 0; x < sizeX; x++)
+            {
+                for (int y = 0; y < sizeY; y++)
+                    tl.Sprites[x, y] = SpriteObject.Deserialize(br);
+            }
+
+            return tl;
+        }
 
     }
 
@@ -85,6 +141,29 @@ namespace AlphaCave.Editor.Objects
         {
             SpriteID = spriteId;
             SpriteSheet = sheet;
+        }
+
+        public void Serialize(BinaryWriter bw)
+        {
+            bw.Write(SpriteID.X);
+            bw.Write(SpriteID.Y);
+
+            if (SpriteSheet == null)
+                SpriteSheet = "";
+
+            bw.Write(SpriteSheet);
+        }
+
+        public static SpriteObject Deserialize(BinaryReader br)
+        {
+            var x = br.ReadInt16();
+            var y = br.ReadInt16();
+            var spritesheet = br.ReadString();
+
+            if (spritesheet == "")
+                spritesheet = null;
+
+            return new SpriteObject(new Index2(x, y), spritesheet);
         }
     }
 }

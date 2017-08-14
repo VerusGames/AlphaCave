@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AlphaCave.Editor.Objects;
 using AlphaCave.Editor.Debugger;
+using AlphaCave.Editor.Manager;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
@@ -32,10 +33,10 @@ namespace AlphaCave.Editor.Controls.Editors
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            var northMap = Object.NorthMap.CreateBitmap(spriteSelector1.SpriteSheets);
-            var eastMap = Object.EastMap.CreateBitmap(spriteSelector1.SpriteSheets);
-            var southMap = Object.SouthMap.CreateBitmap(spriteSelector1.SpriteSheets);
-            var westMap = Object.WestMap.CreateBitmap(spriteSelector1.SpriteSheets);
+            var northMap = Object.NorthMap.CreateBitmap(SpritesheetManager.Instance.Spritesheets);
+            var eastMap = Object.EastMap.CreateBitmap(SpritesheetManager.Instance.Spritesheets);
+            var southMap = Object.SouthMap.CreateBitmap(SpritesheetManager.Instance.Spritesheets);
+            var westMap = Object.WestMap.CreateBitmap(SpritesheetManager.Instance.Spritesheets);
 
             northMap.Save("north.png");
             southMap.Save("south.png");
