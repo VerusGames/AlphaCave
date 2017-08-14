@@ -48,12 +48,21 @@ namespace AlphaCave
             {
                 for (int y = 0; y < Chunk.CHUNKSIZE_Y; y++)
                 {
-                    var tile = chunk.GetTile(new Index2(x, y));
+                    var index = new Index2(x, y);
+
+                    var tile = chunk.GetTile(index);
+
+                    var flag = chunk.GetFlags(index);
+
+                    var color = Color.Red * 0.8f;
+
+                    if (flag.HasFlag(TileFlags.Visible))
+                        color = Color.White;
 
                     Rectangle dest = new Rectangle(x * 32, y * 32, 32, 32);
                     Rectangle src = new Rectangle(5 * 17, 0 * 17, 16, 16);
 
-                    batch.Draw(texture, dest, src, Color.White);
+                    batch.Draw(texture, dest, src, color);
                 }
             }
 

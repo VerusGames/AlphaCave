@@ -19,6 +19,9 @@ namespace AlphaCave.Core.Maps.Generator
                     var tileIndex = new Index2(x, y);
 
                     chunk.SetTile(tileIndex, new Tile(tileIndex,TileBaseType.Grass));
+
+                    if (x % 3 == 0)
+                        chunk.SetFlag(tileIndex, TileFlags.Visible);
                 }
             }
 

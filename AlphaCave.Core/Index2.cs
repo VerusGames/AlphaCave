@@ -42,5 +42,10 @@ namespace AlphaCave.Core
 
             return false;
         }
+
+        public int GetFlatIndex(int ySize)
+        {
+            return Y * ySize + X;
+        }
     }
 }

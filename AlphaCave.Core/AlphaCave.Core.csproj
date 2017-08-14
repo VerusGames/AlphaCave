@@ -63,6 +63,7 @@
     <Compile Include="Maps\Generator\IMapGenerator.cs" />
     <Compile Include="Maps\Tile.cs" />
     <Compile Include="Maps\TileBaseType.cs" />
+    <Compile Include="Maps\TileFlags.cs" />
     <Compile Include="Maps\World.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\Structure.cs" />
