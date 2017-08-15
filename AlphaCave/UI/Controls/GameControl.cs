@@ -11,6 +11,7 @@ using engenious;
 using AlphaCave.Core;
 using engenious;
 using Bitmap = System.Drawing.Bitmap;
+using AlphaCave.Map;
 
 namespace AlphaCave.UI.Controls
 {
@@ -23,22 +24,61 @@ namespace AlphaCave.UI.Controls
 
         private ScreenManager manager;
 
+        private ChunkRenderer _chunkRenderer;
+
         public GameControl(ScreenManager manager, string style = "") : base(manager, style)
         {
             this.manager = manager;
 
-            texture = AssetManager.Instance.Spritesheets["TileSheetOutdoor"];
+            //texture = AssetManager.Instance.Spritesheets["TileSheetDungeon"];
 
             world = World.CreateDebugWorld();
 
+            var floor = world.Floors.First();
+
+            var chunk = floor.GetChunk(0, 0);
+
+            _chunkRenderer = new ChunkRenderer(manager.Game, AssetManager.Instance.Spritesheets["TileSheetDungeon"], chunk);
+
             batch = new SpriteBatch(manager.GraphicsDevice);
         }
+        private RenderTarget2D ControlTexture;
+        protected override void OnPreDraw(GameTime gameTime)
+        {
+            base.OnPreDraw(gameTime);
+            if (ActualClientArea.Width == 0 || ActualClientArea.Height == 0)
+                return;
+            if (ControlTexture == null || ControlTexture.Width != ActualClientArea.Width || ControlTexture.Height != ActualClientArea.Height)
+            {
+                ControlTexture?.Dispose();
+                ControlTexture = new RenderTarget2D(manager.GraphicsDevice, ActualClientArea.Width, ActualClientArea.Height, PixelInternalFormat.Rgb8);
 
-        protected override void OnDraw(SpriteBatch batch, engenious.Rectangle controlArea, GameTime gameTime)
+            }
+
+            manager.GraphicsDevice.SetRenderTarget(ControlTexture);
+            manager.GraphicsDevice.Clear(Color.Transparent);
+            manager.GraphicsDevice.Clear(ClearBufferMask.ColorBufferBit);//TODO not necessary with next engenious
+
+            _chunkRenderer.Render(manager.GraphicsDevice, Matrix.Identity, Matrix.CreateOrthographicOffCenter(0, ControlTexture.Width, 0, ControlTexture.Height, -0.1f, 1));
+
+            manager.GraphicsDevice.SetRenderTarget(null);
+
+            /* using (var bmp = Texture2D.ToBitmap(ControlTexture))
+                 bmp.Save("test.png", System.Drawing.Imaging.ImageFormat.Png);*/
+        }
+        protected override void OnDraw(SpriteBatch batch, Rectangle controlArea, GameTime gameTime)
         {
             base.OnDraw(batch, controlArea, gameTime);
 
             batch.Begin();
+
+            batch.Draw(ControlTexture, controlArea, Color.White);
+
+            batch.End();
+
+
+
+            /*batch.Begin();
 
             var floor = world.Floors.First();
 
@@ -54,19 +94,93 @@ namespace AlphaCave.UI.Controls
 
                     var flag = chunk.GetFlags(index);
 
-                    var color = engenious.Color.Red * 0.8f;
+                    Rectangle dest = new Rectangle(x * 32, y * 32, 32, 32);
+
 
                     if (flag.HasFlag(TileFlags.Visible))
-                        color = Color.White;
+                    {
+                        //Rectangle src = new Rectangle(13 * 17, 4 * 17, 16, 16);
+                        //batch.Draw(texture, dest, src, Color.White);
+                        batch.Draw(TileRectangle.StoneFloor.Texture, dest, TileRectangle.StoneFloor.Rectangle, Color.White);
+                    }
+                    /*else if(flag.HasFlag(TileFlags.PreVisible))
+                    {
+                        var down = chunk.GetFlags(new Index2(x, y + 1));
 
-                    Rectangle dest = new Rectangle(x * 32, y * 32, 32, 32);
-                    Rectangle src = new Rectangle(5 * 17, 0 * 17, 16, 16);
+                        Rectangle destUp = new Rectangle(x * 32, (y-1) * 32, 32, 32);
+                        Rectangle destUpUp = new Rectangle(x * 32, (y - 2) * 32, 32, 32);
 
-                    batch.Draw(texture, dest, src, color);
+                        if (down.HasFlag(TileFlags.Visible))
+                        {
+                            batch.Draw(TileRectangle.StoneFloor.Texture, dest, TileRectangle.StoneFloor.Rectangle, Color.White);
+                            batch.Draw(TileRectangle.WallUpLower.Texture, dest, TileRectangle.WallUpLower.Rectangle, Color.White);
+
+                            batch.Draw(TileRectangle.WallUpUpper.Texture, destUp, TileRectangle.WallUpUpper.Rectangle, Color.White);
+                            batch.Draw(TileRectangle.WallTop.Texture, destUpUp, TileRectangle.WallTop.Rectangle, Color.White);
+                        }
+                        else
+                        {
+                            batch.Draw(TileRectangle.DirtFloor.Texture, dest, TileRectangle.DirtFloor.Rectangle, Color.Gray);
+                        }
+
+                        
+                    }
+                    else
+                    {
+
+                    }
+
+
                 }
             }
 
-            batch.End();
+            batch.End();*/
+        }
+
+        bool isDown = false;
+        protected override void OnLeftMouseDown(MouseEventArgs args)
+        {
+            base.OnLeftMouseClick(args);
+
+            isDown = true;
+
+            int xPos = args.LocalPosition.X / 32;
+            int yPos = args.LocalPosition.Y / 32;
+
+            int chunkX = xPos / 64;
+            int chunkY = yPos / 64;
+
+            xPos = (xPos % 64) + 1;
+            yPos = (yPos % 64) + 1;
+
+            world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+        }
+
+        protected override void OnMouseMove(MouseEventArgs args)
+        {
+            base.OnMouseMove(args);
+
+            if (isDown)
+            {
+
+                int xPos = args.LocalPosition.X / 32;
+                int yPos = args.LocalPosition.Y / 32;
+
+                int chunkX = xPos / 64;
+                int chunkY = yPos / 64;
+
+                xPos = (xPos % 64) + 1;
+                yPos = (yPos % 64) + 1;
+
+                world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+            }
+        }
+
+        protected override void OnLeftMouseUp(MouseEventArgs args)
+        {
+            base.OnLeftMouseUp(args);
+
+            isDown = false;
         }
     }
 }

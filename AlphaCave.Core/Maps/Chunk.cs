@@ -33,6 +33,10 @@ namespace AlphaCave.Core.Maps
         {
             return Tiles[tileIndex.GetFlatIndex(CHUNKSIZE_Y)];
         }
+        public Tile GetTile(int x,int y)
+        {
+            return GetTile(new Index2(x, y));
+        }
 
         public void SetFlag(Index2 tileIndex, TileFlags flag)
         {
@@ -47,6 +51,21 @@ namespace AlphaCave.Core.Maps
         public TileFlags GetFlags(Index2 tileIndex)
         {
             return Flags[tileIndex.GetFlatIndex(CHUNKSIZE_Y)];
+        }
+
+        public void SetVisible(Index2 tileIndex)
+        {
+            SetFlag(tileIndex, TileFlags.Visible);
+            ResetFlag(tileIndex, TileFlags.PreVisible);
+            for(int x = tileIndex.X-1; x <= tileIndex.X+1; x++)
+            {
+                for(int y = tileIndex.Y-1; y <= tileIndex.Y+1; y++)
+                {
+                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || GetFlags(new Index2(x,y)).HasFlag(TileFlags.Visible))
+                        continue;
+                    SetFlag(new Index2(x, y), TileFlags.PreVisible);
+                }
+            }
         }
     }
 }

@@ -35,7 +35,7 @@
         <ContentFile>
           <Name>TileSheetDungeon.png</Name>
           <Processor>BitmapProcessor</Processor>
-          <Importer />
+          <Importer>Bitmap Importer</Importer>
           <Settings>
             <AutoGenerateMipMaps>False</AutoGenerateMipMaps>
             <MipMapCount>1</MipMapCount>
@@ -45,7 +45,7 @@
         <ContentFile>
           <Name>TileSheetIndoor.png</Name>
           <Processor>BitmapProcessor</Processor>
-          <Importer />
+          <Importer>Bitmap Importer</Importer>
           <Settings>
             <AutoGenerateMipMaps>False</AutoGenerateMipMaps>
             <MipMapCount>1</MipMapCount>
@@ -55,7 +55,7 @@
         <ContentFile>
           <Name>TileSheetOutdoor.png</Name>
           <Processor>BitmapProcessor</Processor>
-          <Importer />
+          <Importer>Bitmap Importer</Importer>
           <Settings>
             <AutoGenerateMipMaps>False</AutoGenerateMipMaps>
             <MipMapCount>1</MipMapCount>
@@ -64,5 +64,10 @@
         </ContentFile>
       </Contents>
     </ContentFolder>
+    <ContentFile>
+      <Name>simple.glsl</Name>
+      <Processor>EffectProcessor</Processor>
+      <Importer />
+    </ContentFile>
   </Contents>
 </Content>

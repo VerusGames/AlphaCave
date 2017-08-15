@@ -10,6 +10,7 @@ namespace AlphaCave.Core.Maps
     public enum TileFlags : byte
     {
         Visible = 0x01,
+        PreVisible,
         Collidable
     }
 }

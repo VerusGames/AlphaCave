@@ -13,6 +13,7 @@ namespace AlphaCave.Core.Maps
         private readonly Dictionary<Index2, Chunk> chunks = new Dictionary<Index2, Chunk>();
         public IEnumerable<Chunk> Chunks => chunks.Values;
 
+
         public readonly int Id;
 
         private readonly IMapGenerator mapGenerator;
@@ -20,7 +21,7 @@ namespace AlphaCave.Core.Maps
         public Floor(int id, IMapGenerator generator)
         {
             this.Id = id;
-            mapGenerator = generator;
+            mapGenerator = generator; 
         }
 
         public Chunk GetChunk(short x, short y)

@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>AlphaCave.Program</StartupObject>
@@ -51,6 +53,11 @@
   <ItemGroup>
     <Compile Include="AlphaCaveGame.cs" />
     <Compile Include="AssetManager.cs" />
+    <Compile Include="Components\SimulationComponent.cs" />
+    <Compile Include="Graphics\Spritesheet.cs" />
+    <Compile Include="Map\ChunkRenderer.cs" />
+    <Compile Include="Map\TileRectangle.cs" />
+    <Compile Include="Map\MapVertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Components\ScreenManager.cs" />
     <Compile Include="UI\Controls\GameControl.cs" />
