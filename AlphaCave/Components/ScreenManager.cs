@@ -23,6 +23,8 @@ namespace AlphaCave.Components
             base.LoadContent();
 
             Frame.Background = new BorderBrush(Color.LightGray);
+            NavigateFromTransition = new AlphaTransition(Frame, Transition.Linear, TimeSpan.FromMilliseconds(200), 0f);
+            NavigateToTransition = new AlphaTransition(Frame, Transition.Linear, TimeSpan.FromMilliseconds(200), 1f);
         }
     }
 }

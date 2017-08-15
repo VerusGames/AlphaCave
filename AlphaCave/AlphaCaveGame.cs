@@ -26,7 +26,7 @@ namespace AlphaCave
         public override void LoadContent()
         {
             base.LoadContent();
-            ScreenManager.NavigateToScreen(new MainScreen(ScreenManager));
+            ScreenManager.NavigateToScreen(new LoadingScreen(ScreenManager));
         }
 
     }
