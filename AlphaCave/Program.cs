@@ -11,9 +11,10 @@ namespace AlphaCave
     {
         public static void Main()
         {
-            AlphaCaveGame game = new AlphaCaveGame();
-
-            game.Run();
+            using (var game = new AlphaCaveGame())
+            {
+                game.Run();
+            }
         }
     }
 }
