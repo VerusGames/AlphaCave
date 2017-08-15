@@ -24,13 +24,16 @@ namespace AlphaCave.UI.Screens
             this.manager = manager;
 
             //Set UI up
-            text = new Label(manager) { Text = "Loading", HorizontalAlignment = HorizontalAlignment.Center };
+            text = new Label(manager) { Text = "Loading...", HorizontalAlignment = HorizontalAlignment.Center, TextColor = Color.White};
             progressBar = new ProgressBar(manager)
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Height = 20,
-                Background = new BorderBrush(Color.Gray)
+                Background = new BorderBrush(Color.DarkGray),
+                BarBrush = new BorderBrush(Color.White)
             };
+
+            Background = new BorderBrush(Color.White * 0.5f);
 
             StackPanel sp = new StackPanel(manager);
             sp.MinWidth = 400;

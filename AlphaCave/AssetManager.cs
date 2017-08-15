@@ -18,7 +18,7 @@ namespace AlphaCave
             get
             {
                 if (instance == null)
-                    throw new NotSupportedException("AssetManager not initialized!");
+                    throw new Exception("AssetManager not initialized");
                 return instance;
             }
             private set
@@ -44,6 +44,7 @@ namespace AlphaCave
             {
                 var am = new AssetManager(game);
                 am.LoadAssets(onProgress);
+                instance = am;
                 onComplete?.Invoke();
             });
             t.Start();
@@ -81,8 +82,8 @@ namespace AlphaCave
            for(int i = 0; i < loadActions.Count; i++)
             {
                 loadActions[i](this);
-                onProgress(i, loadActions.Count);
-                Thread.Sleep(500);
+                onProgress(i+1, loadActions.Count);
+                //Thread.Sleep(500);
             }
             Thread.Sleep(200);
         }

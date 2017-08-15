@@ -27,9 +27,7 @@ namespace AlphaCave.UI.Controls
         {
             this.manager = manager;
 
-            var bitMap = (Bitmap)Bitmap.FromFile("Spritesheets/TileSheetOutdoor.png");
-
-            texture = Texture2D.FromBitmap(manager.GraphicsDevice,bitMap);
+            texture = AssetManager.Instance.Spritesheets["TileSheetOutdoor"];
 
             world = World.CreateDebugWorld();
 

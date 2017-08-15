@@ -20,7 +20,7 @@ namespace AlphaCave.Core.Maps.Generator
 
                     chunk.SetTile(tileIndex, new Tile(tileIndex,TileBaseType.Grass));
 
-                    if (x % 3 == 0)
+                    if (x < 20 && x > 10 && y < 20 && y > 10)
                         chunk.SetFlag(tileIndex, TileFlags.Visible);
                 }
             }
