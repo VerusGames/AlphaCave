@@ -12,6 +12,7 @@ using AlphaCave.Core;
 using engenious;
 using Bitmap = System.Drawing.Bitmap;
 using AlphaCave.Map;
+using engenious.Input;
 
 namespace AlphaCave.UI.Controls
 {
@@ -71,7 +72,7 @@ namespace AlphaCave.UI.Controls
             manager.GraphicsDevice.Clear(Color.Transparent);
             manager.GraphicsDevice.Clear(ClearBufferMask.ColorBufferBit);//TODO not necessary with next engenious
 
-            _chunkRenderer.Render(manager.GraphicsDevice, Matrix.Identity * Matrix.CreateScaling(new Vector3(2)), Matrix.CreateOrthographicOffCenter(0 - moveX, ControlTexture.Width-moveX, 0+moveY, ControlTexture.Height+moveY, -0.1f, 1));
+            _chunkRenderer.Render(manager.GraphicsDevice, Matrix.Identity * Matrix.CreateScaling(new Vector3(2)), Matrix.CreateOrthographicOffCenter(0 - moveX, ControlTexture.Width - moveX, 0 + moveY, ControlTexture.Height + moveY, -0.1f, 1));
             _wallRenderer.Render(manager.GraphicsDevice, Matrix.Identity * Matrix.CreateScaling(new Vector3(2)), Matrix.CreateOrthographicOffCenter(0 - moveX, ControlTexture.Width - moveX, 0 + moveY, ControlTexture.Height + moveY, -0.1f, 1));
 
             manager.GraphicsDevice.SetRenderTarget(null);
@@ -150,12 +151,38 @@ namespace AlphaCave.UI.Controls
             batch.End();*/
         }
 
-        bool isDown = false;
+        bool isLeftMouseDown = false;
+        bool isRightMouseDown = false;
+
+        protected override void OnRightMouseDown(MouseEventArgs args)
+        {
+            base.OnRightMouseDown(args);
+            isRightMouseDown = true;
+        }
+
         protected override void OnLeftMouseDown(MouseEventArgs args)
         {
             base.OnLeftMouseClick(args);
+            isLeftMouseDown = true;
 
-            isDown = true;
+            //int xPos = args.LocalPosition.X / 32;
+            //int yPos = args.LocalPosition.Y / 32;
+
+            //int chunkX = xPos / 64;
+            //int chunkY = yPos / 64;
+
+            //xPos = (xPos % 64) + 1;
+            //yPos = (yPos % 64) + 1;
+
+            //world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+            //_chunkRenderer.ReloadChunk();
+            //_wallRenderer.ReloadChunk();
+        }
+
+        protected override void OnMouseMove(MouseEventArgs args)
+        {
+            base.OnMouseMove(args);
+
 
             int xPos = args.LocalPosition.X / 32;
             int yPos = args.LocalPosition.Y / 32;
@@ -166,39 +193,29 @@ namespace AlphaCave.UI.Controls
             xPos = (xPos % 64) + 1;
             yPos = (yPos % 64) + 1;
 
-            world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+            if (isLeftMouseDown)
+            {
+                world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+            }
+            else if (isRightMouseDown)
+            {
+                world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetInVisible(new Index2(xPos, yPos));
+            }
+
             _chunkRenderer.ReloadChunk();
             _wallRenderer.ReloadChunk();
         }
 
-        protected override void OnMouseMove(MouseEventArgs args)
+        protected override void OnRightMouseUp(MouseEventArgs args)
         {
-            base.OnMouseMove(args);
-
-            if (isDown)
-            {
-
-                int xPos = args.LocalPosition.X / 32;
-                int yPos = args.LocalPosition.Y / 32;
-
-                int chunkX = xPos / 64;
-                int chunkY = yPos / 64;
-
-                xPos = (xPos % 64) + 1;
-                yPos = (yPos % 64) + 1;
-
-                world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
-                _chunkRenderer.ReloadChunk();
-                _wallRenderer.ReloadChunk();
-            }
+            base.OnRightMouseUp(args);
+            isRightMouseDown = false;
         }
 
         protected override void OnLeftMouseUp(MouseEventArgs args)
         {
             base.OnLeftMouseUp(args);
-
-            isDown = false;
-
+            isLeftMouseDown = false;
         }
 
         int xAdd = 0, yAdd = 0;
@@ -207,7 +224,7 @@ namespace AlphaCave.UI.Controls
         {
             base.OnKeyDown(args);
 
-            switch(args.Key)
+            switch (args.Key)
             {
                 case engenious.Input.Keys.A:
                     xAdd = -1; break;

@@ -40,6 +40,9 @@ namespace AlphaCave.Map
 
         public void ReloadChunk()
         {
+            // TODO: Scanline Alg. zum entfernen überflüssiger Wände
+            // http://www-lehre.informatik.uni-osnabrueck.de/~cg/2000/skript/4_2_Scan_Line_Verfahren_f_252_r.html
+
             _world = Matrix.CreateTranslation(Chunk.Index.X, Chunk.Index.Y, 0) * Matrix.CreateScaling(16, 16, 16);
 
             int index = 0;

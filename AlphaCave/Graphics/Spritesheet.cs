@@ -40,15 +40,7 @@ namespace AlphaCave.Graphics
                         }
                     }
 
-                    Textures.SetData(tileData, i+1);
-
-                    using (Texture2D tmp = new Texture2D(graphicsDevice, tileWidth, tileHeight))
-                    {
-                        tmp.SetData(tileData);
-
-                        using (var tmpBmp = Texture2D.ToBitmap(tmp))
-                            tmpBmp.Save($"DB\\{i+1}.png", ImageFormat.Png);
-                    }
+                    Textures.SetData(tileData, i + 1);
 
                     xOffset += tileWidth + tileSpacing;
                     if (xOffset + tileWidth > text.Width)

@@ -68,6 +68,22 @@ namespace AlphaCave.Core.Maps
             }
         }
 
+        public void SetInVisible(Index2 tileIndex)
+        {
+            ResetFlag(tileIndex, TileFlags.Visible);
+            ResetFlag(tileIndex, TileFlags.PreVisible);
+            for (int x = tileIndex.X - 1; x <= tileIndex.X + 1; x++)
+            {
+                for (int y = tileIndex.Y - 1; y <= tileIndex.Y + 1; y++)
+                {
+                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || !GetFlags(new Index2(x, y)).HasFlag(TileFlags.Visible))
+                        continue;
+
+                    SetFlag(new Index2(x, y), TileFlags.PreVisible);
+                }
+            }
+        }
+
         public bool IsPreVisible(int x, int y)
         {
             return IsPreVisible(new Index2(x, y));
