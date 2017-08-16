@@ -55,7 +55,8 @@
     <Compile Include="AssetManager.cs" />
     <Compile Include="Components\SimulationComponent.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
-    <Compile Include="Map\ChunkRenderer.cs" />
+    <Compile Include="Map\Renderer\MainWallRenderer.cs" />
+    <Compile Include="Map\Renderer\FloorRenderer.cs" />
     <Compile Include="Map\TileRectangle.cs" />
     <Compile Include="Map\MapVertex.cs" />
     <Compile Include="Program.cs" />

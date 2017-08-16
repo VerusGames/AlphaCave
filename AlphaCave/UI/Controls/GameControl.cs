@@ -24,7 +24,8 @@ namespace AlphaCave.UI.Controls
 
         private ScreenManager manager;
 
-        private ChunkRenderer _chunkRenderer;
+        private ChunkFloorRenderer _chunkRenderer;
+        private BottomWallRenderer _wallRenderer;
 
         public GameControl(ScreenManager manager, string style = "") : base(manager, style)
         {
@@ -38,11 +39,22 @@ namespace AlphaCave.UI.Controls
 
             var chunk = floor.GetChunk(0, 0);
 
-            _chunkRenderer = new ChunkRenderer(manager.Game, AssetManager.Instance.Spritesheets["TileSheetDungeon"], chunk);
+            _chunkRenderer = new ChunkFloorRenderer(manager.Game, AssetManager.Instance.Spritesheets["TileSheetDungeon"], chunk);
+            _wallRenderer = new BottomWallRenderer(manager.Game, AssetManager.Instance.Spritesheets["TileSheetDungeon"], chunk);
 
             batch = new SpriteBatch(manager.GraphicsDevice);
         }
         private RenderTarget2D ControlTexture;
+
+        private int moveX, moveY;
+        protected override void OnUpdate(GameTime gameTime)
+        {
+            base.OnUpdate(gameTime);
+
+            moveX += xAdd;
+            moveY += yAdd;
+        }
+
         protected override void OnPreDraw(GameTime gameTime)
         {
             base.OnPreDraw(gameTime);
@@ -59,7 +71,8 @@ namespace AlphaCave.UI.Controls
             manager.GraphicsDevice.Clear(Color.Transparent);
             manager.GraphicsDevice.Clear(ClearBufferMask.ColorBufferBit);//TODO not necessary with next engenious
 
-            _chunkRenderer.Render(manager.GraphicsDevice, Matrix.Identity, Matrix.CreateOrthographicOffCenter(0, ControlTexture.Width, 0, ControlTexture.Height, -0.1f, 1));
+            _chunkRenderer.Render(manager.GraphicsDevice, Matrix.Identity * Matrix.CreateScaling(new Vector3(2)), Matrix.CreateOrthographicOffCenter(0 - moveX, ControlTexture.Width-moveX, 0+moveY, ControlTexture.Height+moveY, -0.1f, 1));
+            _wallRenderer.Render(manager.GraphicsDevice, Matrix.Identity * Matrix.CreateScaling(new Vector3(2)), Matrix.CreateOrthographicOffCenter(0 - moveX, ControlTexture.Width - moveX, 0 + moveY, ControlTexture.Height + moveY, -0.1f, 1));
 
             manager.GraphicsDevice.SetRenderTarget(null);
 
@@ -154,6 +167,8 @@ namespace AlphaCave.UI.Controls
             yPos = (yPos % 64) + 1;
 
             world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+            _chunkRenderer.ReloadChunk();
+            _wallRenderer.ReloadChunk();
         }
 
         protected override void OnMouseMove(MouseEventArgs args)
@@ -173,6 +188,8 @@ namespace AlphaCave.UI.Controls
                 yPos = (yPos % 64) + 1;
 
                 world.Floors.First().GetChunk((short)chunkX, (short)chunkY).SetVisible(new Index2(xPos, yPos));
+                _chunkRenderer.ReloadChunk();
+                _wallRenderer.ReloadChunk();
             }
         }
 
@@ -181,6 +198,42 @@ namespace AlphaCave.UI.Controls
             base.OnLeftMouseUp(args);
 
             isDown = false;
+
+        }
+
+        int xAdd = 0, yAdd = 0;
+
+        protected override void OnKeyPress(KeyEventArgs args)
+        {
+            base.OnKeyDown(args);
+
+            switch(args.Key)
+            {
+                case engenious.Input.Keys.A:
+                    xAdd = -1; break;
+                case engenious.Input.Keys.D:
+                    xAdd = +1; break;
+                case engenious.Input.Keys.W:
+                    yAdd = +1; break;
+                case engenious.Input.Keys.S:
+                    yAdd = -1; break;
+            }
+        }
+
+        protected override void OnKeyUp(KeyEventArgs args)
+        {
+            base.OnKeyUp(args);
+            switch (args.Key)
+            {
+                case engenious.Input.Keys.A:
+                    xAdd = 0; break;
+                case engenious.Input.Keys.D:
+                    xAdd = 0; break;
+                case engenious.Input.Keys.W:
+                    yAdd = 0; break;
+                case engenious.Input.Keys.S:
+                    yAdd = 0; break;
+            }
         }
     }
 }

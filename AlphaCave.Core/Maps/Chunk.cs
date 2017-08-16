@@ -67,5 +67,25 @@ namespace AlphaCave.Core.Maps
                 }
             }
         }
+
+        public bool IsPreVisible(int x, int y)
+        {
+            return IsPreVisible(new Index2(x, y));
+        }
+
+        public bool IsPreVisible(Index2 index)
+        {
+            return GetFlags(index).HasFlag(TileFlags.PreVisible);
+        }
+
+        public bool IsVisible(int x, int y)
+        {
+            return IsVisible(new Index2(x, y));
+        }
+
+        public bool IsVisible(Index2 index)
+        {
+            return GetFlags(index).HasFlag(TileFlags.Visible);
+        }
     }
 }

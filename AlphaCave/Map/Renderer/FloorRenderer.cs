@@ -10,35 +10,54 @@ using System.Threading.Tasks;
 
 namespace AlphaCave.Map
 {
-    class ChunkRenderer : IDisposable
+    class ChunkFloorRenderer : IDisposable
     {
         private VertexBuffer _vertexBuffer;
         private IndexBuffer _indexBuffer;
         private Spritesheet _spriteSheet;
         private Effect _effect;
         private Matrix _world;
+        private int _width, _height;
+        private Game _game;
 
-        public Chunk Chunk { get; }
-        public ChunkRenderer(Game game, Spritesheet spriteSheet, Chunk chunk, int width = Chunk.CHUNKSIZE_X, int height = Chunk.CHUNKSIZE_Y)
+        public Chunk Chunk { get; private set; }
+
+        public ChunkFloorRenderer(Game game, Spritesheet spriteSheet, Chunk chunk, int width = Chunk.CHUNKSIZE_X, int height = Chunk.CHUNKSIZE_Y)
         {
             Chunk = chunk;
             _spriteSheet = spriteSheet;
             _effect = game.Content.Load<Effect>("simple");
-            _world = Matrix.CreateTranslation(chunk.Index.X, chunk.Index.Y, 0) * Matrix.CreateScaling(16, 16, 16);
-            List<MapVertex> vertices = new List<MapVertex>(width * height * 4);
 
-            for (int x = 0; x < width; x++)
+            _width = width;
+            _height = height;
+            _game = game;
+
+            ReloadChunk();
+        }
+
+        public void ReloadChunk()
+        {
+            _world = Matrix.CreateTranslation(Chunk.Index.X, Chunk.Index.Y, 0) * Matrix.CreateScaling(16, 16, 16);
+            List<MapVertex> vertices = new List<MapVertex>(_width * _height * 4);
+
+            for (int x = 0; x < _width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < _height; y++)
                 {
-                    var tile = chunk.GetTile(x, y);
+                    var tile = Chunk.GetTile(x, y);
 
                     uint tileIndex = 0;
-                    switch (tile.BaseType)
+
+                    var flags = Chunk.GetFlags(new Core.Index2(x, y));
+
+                    if (flags.HasFlag(TileFlags.Visible) || flags.HasFlag(TileFlags.PreVisible))
                     {
-                        case TileBaseType.Grass:
-                            tileIndex = spriteSheet.GetIndex(9, 7);
-                            break;
+                        switch (tile.BaseType)
+                        {
+                            case TileBaseType.Grass:
+                                tileIndex = _spriteSheet.GetIndex(9, 7);
+                                break;
+                        }
                     }
                     vertices.Add(new MapVertex(x + 0, y + 0, tileIndex));
                     vertices.Add(new MapVertex(x + 1, y + 0, tileIndex));
@@ -48,10 +67,22 @@ namespace AlphaCave.Map
                 }
             }
 
-            _vertexBuffer = new VertexBuffer(game.GraphicsDevice, MapVertex.VertexDeclaration, vertices.Count);
+            if (_vertexBuffer == null)
+                _vertexBuffer = new VertexBuffer(_game.GraphicsDevice, MapVertex.VertexDeclaration, vertices.Count);
+            else if (_vertexBuffer.VertexCount != vertices.Count)
+                _vertexBuffer.Resize(vertices.Count);
+
             _vertexBuffer.SetData(vertices.ToArray());
-            CreateIndexBuffer(game.GraphicsDevice, _vertexBuffer.VertexCount / 4);
+            CreateIndexBuffer(_game.GraphicsDevice, _vertexBuffer.VertexCount / 4);
         }
+
+        public void SetChunk(Chunk chunk, Spritesheet sheet)
+        {
+            Chunk = chunk;
+            _spriteSheet = sheet;
+            ReloadChunk();
+        }
+
         private void CreateIndexBuffer(GraphicsDevice graphicsDevice, int quadCount)
         {
             List<ushort> indices = new List<ushort>(quadCount * 6);
