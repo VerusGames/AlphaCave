@@ -91,6 +91,8 @@
     <Folder Include="Content\obj\Debug\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\simple\simple.ps" />
+    <Content Include="Content\simple\simple.vs" />
     <Content Include="Content\Spritesheets\TileSheetDungeon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
