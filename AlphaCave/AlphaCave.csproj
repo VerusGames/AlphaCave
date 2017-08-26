@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,21 +34,43 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>AlphaCave.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Content\Fonts\BoldFont.spritefont" />
+    <EngeniousContentReference Include="Content\Content.ecp">
+      <Generator>%24%28ProjectDir%29\packages\engenious.0.1.8\tools\net40\ContentTool.exe</Generator>
+    </EngeniousContentReference>
+    <None Include="Content\Fonts\GameFont.spritefont" />
+    <None Include="Content\Fonts\HeadlineFont.spritefont" />
+    <None Include="Content\Fonts\Hud.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlphaCaveGame.cs" />
+    <Compile Include="AssetManager.cs" />
+    <Compile Include="Components\SimulationComponent.cs" />
+    <Compile Include="Graphics\Spritesheet.cs" />
+    <Compile Include="Map\Renderer\MainWallRenderer.cs" />
+    <Compile Include="Map\Renderer\FloorRenderer.cs" />
+    <Compile Include="Map\TileRectangle.cs" />
+    <Compile Include="Map\MapVertex.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Components\ScreenManager.cs" />
+    <Compile Include="UI\Controls\GameControl.cs" />
+    <Compile Include="UI\Screens\LoadingScreen.cs" />
+    <Compile Include="UI\Screens\MainScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="engenious, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\engenious.0.1.8\lib\net40\engenious.dll</HintPath>
+    </Reference>
+    <Reference Include="EngeniousUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OctoAwesome.engeniousUI.0.2.0\lib\net461\EngeniousUI.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis, Version=0.8.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\engenious.0.1.8\lib\net40\NVorbis.dll</HintPath>
@@ -64,13 +87,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Spritesheets\TileSheetDungeon.png">
+    <Folder Include="Content\bin\Debug\" />
+    <Folder Include="Content\obj\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\simple\simple.ps" />
+    <Content Include="Content\simple\simple.vs" />
+    <Content Include="Content\Spritesheets\TileSheetDungeon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Spritesheets\TileSheetIndoor.png">
+    <Content Include="Content\Spritesheets\TileSheetIndoor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Spritesheets\TileSheetOutdoor.png">
+    <Content Include="Content\Spritesheets\TileSheetOutdoor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

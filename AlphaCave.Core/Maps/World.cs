@@ -1,4 +1,6 @@
-﻿using AlphaCave.Core.Maps.Generator;
+﻿using AlphaCave.Core.Entities;
+using AlphaCave.Core.Maps.Generator;
+using engenious;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +31,12 @@ namespace AlphaCave.Core.Maps
 
             return world;
         }
+
+        public void SpawnPlayer(Player player)
+        {
+            player.Position = new Coordinate() { Floor = 0, FloorPosition = new Index2(32, 32), BlockPoint = new Point(0,0) };
+        }
+
+
     }
 }

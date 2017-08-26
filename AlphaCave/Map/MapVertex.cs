@@ -1,0 +1,28 @@
+﻿using engenious;
+using engenious.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AlphaCave.Map
+{
+    public struct MapVertex : IVertexType
+    {
+        public static readonly VertexDeclaration VertexDeclaration;
+        static MapVertex()
+        {
+            VertexDeclaration = new VertexDeclaration(sizeof(float) * 3 + sizeof(uint), new[] { new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0), new VertexElement(sizeof(float) * 3, VertexElementFormat.Rgba32, VertexElementUsage.Normal, 0) });
+        }
+        public MapVertex(int x, int y, uint tileIndex)
+        {
+            Position = new Vector3(x, y, 0);
+            TileIndex = tileIndex;
+        }
+        public Vector3 Position { get; }
+        public uint TileIndex { get; }
+
+        VertexDeclaration IVertexType.VertexDeclaration => VertexDeclaration;
+    }
+}
