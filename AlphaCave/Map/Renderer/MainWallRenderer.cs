@@ -23,7 +23,8 @@ namespace AlphaCave.Map
 
         public Chunk Chunk { get; private set; }
 
-        public BottomWallRenderer(Game game, Spritesheet spriteSheet, Chunk chunk, int width = Chunk.CHUNKSIZE_X, int height = Chunk.CHUNKSIZE_Y)
+        public BottomWallRenderer(Game game, Spritesheet spriteSheet, Chunk chunk, int width = Chunk.CHUNKSIZE_X,
+            int height = Chunk.CHUNKSIZE_Y)
         {
             Chunk = chunk;
             _spriteSheet = spriteSheet;
@@ -46,9 +47,10 @@ namespace AlphaCave.Map
             _world = Matrix.CreateTranslation(Chunk.Index.X, Chunk.Index.Y, 0) * Matrix.CreateScaling(16, 16, 16);
 
             int index = 0;
-            for (int x = 0; x < _width; x++)
+
+            for (int y = 0; y < _height; y++)
             {
-                for (int y = 0; y < _height; y++)
+                for (int x = 0; x < _width; x++)
                 {
                     var tile = Chunk.GetTile(x, y);
 
@@ -59,21 +61,29 @@ namespace AlphaCave.Map
                     if (!flags.HasFlag(TileFlags.PreVisible))
                         continue;
 
-                    var wallType = WallHelper.GetWallType(new Core.Index2(x, y), Chunk);
-                    var tIndex = WallHelper.StoneWallLookupTable[wallType];
+                    var wallType = WallTypeHelper.GetWallType(new Core.Index2(x, y), Chunk);
+                    var tIndexs = WallTypeHelper.StoneWallLookupTable[wallType];
 
-                    tileIndex = _spriteSheet.GetIndex(tIndex.X, tIndex.Y);
+                    var endTile = 2 - tIndexs.Length+1;
+                    
+                    for (int dY = 2; dY >= endTile; dY--)
+                    {
+                        var tIndex = tIndexs[2-dY];
 
-                    _vertices[index++] = new MapVertex(x + 0, y + 0, tileIndex);
-                    _vertices[index++] = new MapVertex(x + 1, y + 0, tileIndex);
+                        tileIndex = _spriteSheet.GetIndex(tIndex.X, tIndex.Y);
 
-                    _vertices[index++] = new MapVertex(x + 0, y + 1, tileIndex);
-                    _vertices[index++] = new MapVertex(x + 1, y + 1, tileIndex);
+                        _vertices[index++] = new MapVertex(x + 0, y - dY + 0, tileIndex);
+                        _vertices[index++] = new MapVertex(x + 1, y - dY + 0, tileIndex);
+
+                        _vertices[index++] = new MapVertex(x + 0, y - dY + 1, tileIndex);
+                        _vertices[index++] = new MapVertex(x + 1, y - dY + 1, tileIndex);
+                    }
                 }
             }
 
             if (_vertexBuffer == null)
-                _vertexBuffer = new VertexBuffer(_game.GraphicsDevice, MapVertex.VertexDeclaration, _vertices.Length + 1);
+                _vertexBuffer = new VertexBuffer(_game.GraphicsDevice, MapVertex.VertexDeclaration,
+                    _vertices.Length + 1);
             else if (_vertexBuffer.VertexCount != _vertices.Length)
                 _vertexBuffer.Resize(_vertices.Length + 1);
 
@@ -92,13 +102,13 @@ namespace AlphaCave.Map
             List<ushort> indices = new List<ushort>(quadCount * 6);
             for (uint i = 0; i < quadCount * 4; i += 4)
             {
-                indices.Add((ushort)(0 + i));
-                indices.Add((ushort)(1 + i));
-                indices.Add((ushort)(3 + i));
+                indices.Add((ushort) (0 + i));
+                indices.Add((ushort) (1 + i));
+                indices.Add((ushort) (3 + i));
 
-                indices.Add((ushort)(0 + i));
-                indices.Add((ushort)(3 + i));
-                indices.Add((ushort)(2 + i));
+                indices.Add((ushort) (0 + i));
+                indices.Add((ushort) (3 + i));
+                indices.Add((ushort) (2 + i));
             }
             if (_indexBuffer == null)
                 _indexBuffer = new IndexBuffer(graphicsDevice, DrawElementsType.UnsignedShort, indices.Count);
@@ -106,7 +116,14 @@ namespace AlphaCave.Map
                 _indexBuffer.Resize(indices.Count);
             _indexBuffer.SetData(indices.ToArray());
         }
-        static SamplerState NearestSampler = new SamplerState() { TextureFilter = TextureFilter.Nearest, AddressU = TextureWrapMode.Repeat, AddressV = TextureWrapMode.Repeat };
+
+        static SamplerState NearestSampler = new SamplerState()
+        {
+            TextureFilter = TextureFilter.Nearest,
+            AddressU = TextureWrapMode.Repeat,
+            AddressV = TextureWrapMode.Repeat
+        };
+
         public void Render(GraphicsDevice graphicsDevice, Matrix view, Matrix projection)
         {
             //_spriteSheets
@@ -121,7 +138,8 @@ namespace AlphaCave.Map
             {
                 pass.Apply();
 
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.Triangles, 0, 0, _vertexBuffer.VertexCount, 0, _indexBuffer.IndexCount / 3);
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.Triangles, 0, 0, _vertexBuffer.VertexCount, 0,
+                    _indexBuffer.IndexCount / 3);
             }
         }
 
