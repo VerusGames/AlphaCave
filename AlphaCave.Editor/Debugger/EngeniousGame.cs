@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bitmap = System.Drawing.Bitmap;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Debugger
 {
@@ -19,12 +20,12 @@ namespace AlphaCave.Editor.Debugger
 
         SpriteBatch batch;
 
-        Index2 size;
+        EPoint size;
         int height;
 
         int side = 0;
 
-        public void ShowStructure(Index2 size, int height, Bitmap northSide, Bitmap eastSide, Bitmap southSide, Bitmap westSide)
+        public void ShowStructure(EPoint size, int height, Bitmap northSide, Bitmap eastSide, Bitmap southSide, Bitmap westSide)
         {
             batch = new SpriteBatch(GraphicsDevice);
             this.size = size;

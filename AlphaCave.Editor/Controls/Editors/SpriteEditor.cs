@@ -12,6 +12,7 @@ using AlphaCave.Editor.Objects;
 using System.IO;
 using AlphaCave.Editor.Manager;
 using System.Drawing.Imaging;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
@@ -21,7 +22,7 @@ namespace AlphaCave.Editor.Controls.Editors
         const string FolderPath = "Spritesheets";
         int scaling = 2;
 
-        public Index2 SpriteSize { get; private set; }
+        public EPoint SpriteSize { get; private set; }
 
         SpriteSelector selector;
 
@@ -111,7 +112,7 @@ namespace AlphaCave.Editor.Controls.Editors
 
         }
 
-        List<Index2> selectedTiles = new List<Index2>();
+        List<EPoint> selectedTiles = new List<EPoint>();
         bool isPainting = false;
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -131,7 +132,7 @@ namespace AlphaCave.Editor.Controls.Editors
             if (xPos >= sprites.GetLength(0) || yPos >= sprites.GetLength(1))
                 return;
 
-            selectedTiles.Add(new Index2(xPos, yPos));
+            selectedTiles.Add(new EPoint(xPos, yPos));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -150,7 +151,7 @@ namespace AlphaCave.Editor.Controls.Editors
                 return;
 
             if(selectedTiles.Count(t => t.X == xPos && t.Y == yPos)==0)
-                selectedTiles.Add(new Index2(xPos, yPos));
+                selectedTiles.Add(new EPoint(xPos, yPos));
 
             Invalidate();
         }

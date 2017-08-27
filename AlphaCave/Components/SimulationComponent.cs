@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AlphaCave.Core;
 
 namespace AlphaCave.Components
 {
@@ -19,18 +20,34 @@ namespace AlphaCave.Components
 
         public SimulationState State { get; private set; }
 
-        protected SimulationComponent(AlphaCaveGame game) : base(game)
+        public Simulation Simulation { get; private set; }
+        
+        public SimulationComponent(AlphaCaveGame game) : base(game)
         {
             Game = game;
+            NewGame();
         }
 
         public void NewGame()
         {
             State = SimulationState.Loading;
             World = World.CreateDebugWorld();
-            Player = new Player();
+            
+            Simulation = new Simulation(World);
+
+            Player = Simulation.SpanwPLayer();
+           
+            Simulation.Start();
+
+
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            
+            Simulation?.Update(gameTime);
+        }
     }
 
     public enum SimulationState

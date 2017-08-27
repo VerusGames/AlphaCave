@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Objects
 {
@@ -18,7 +19,7 @@ namespace AlphaCave.Editor.Objects
             var objectType = br.ReadString();
 
             if (objectType == typeof(StructureObject).Name)
-                return new StructureObject("", new Index2(0, 0), 0).InternalDeserialize(br);
+                return new StructureObject("", new EPoint(0, 0), 0).InternalDeserialize(br);
 
             else
                 return null;

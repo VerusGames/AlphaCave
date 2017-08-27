@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using engenious;
 
 namespace AlphaCave.Core.Maps
 {
     public class Floor
     {
 
-        private readonly Dictionary<Index2, Chunk> chunks = new Dictionary<Index2, Chunk>();
+        private readonly Dictionary<Point, Chunk> chunks = new Dictionary<Point, Chunk>();
         public IEnumerable<Chunk> Chunks => chunks.Values;
 
 
@@ -26,10 +27,10 @@ namespace AlphaCave.Core.Maps
 
         public Chunk GetChunk(short x, short y)
         {
-            return GetChunk(new Index2(x, y));
+            return GetChunk(new Point(x, y));
         }
 
-        public Chunk GetChunk(Index2 index)
+        public Chunk GetChunk(Point index)
         {
             if (chunks.ContainsKey(index))
                 return chunks[index];

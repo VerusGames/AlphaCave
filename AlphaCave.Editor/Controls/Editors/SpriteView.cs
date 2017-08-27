@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AlphaCave.Core;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
@@ -19,7 +20,7 @@ namespace AlphaCave.Editor.Controls.Editors
 
         public Bitmap SpriteSheet { get; set; }
 
-        public Index2? SelectedSprite { get; set; } = new Index2(1, 1);
+        public EPoint? SelectedSprite { get; set; } = new EPoint(1, 1);
 
         public event EventHandler SelectedSpriteChanged;
 
@@ -80,7 +81,7 @@ namespace AlphaCave.Editor.Controls.Editors
             var x = e.X / ((SpriteSize + SpriteSpacing) * scaling + HorizontalScroll.Value);
             var y = e.Y / ((SpriteSize + SpriteSpacing) * scaling + VerticalScroll.Value);
 
-            SelectedSprite = new Index2(x, y);
+            SelectedSprite = new EPoint(x, y);
             SelectedSpriteChanged?.Invoke(this, EventArgs.Empty);
             Invalidate();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using engenious;
 
 namespace AlphaCave.Core.Maps
 {
@@ -15,45 +16,45 @@ namespace AlphaCave.Core.Maps
         public const byte CHUNKSIZE_X = 64;
         public const byte CHUNKSIZE_Y = 64;
 
-        public readonly Index2 Index;
+        public readonly Point Index;
 
-        public Chunk(Index2 index)
+        public Chunk(Point index)
         {
             Index = index;
             Tiles = new Tile[CHUNKSIZE_X*CHUNKSIZE_Y];
             Flags = new TileFlags[CHUNKSIZE_X * CHUNKSIZE_Y];
         }
 
-        public void SetTile(Index2 tileIndex, Tile tile)
+        public void SetTile(Point tileIndex, Tile tile)
         {
             Tiles[tileIndex.GetFlatIndex(CHUNKSIZE_Y)] = tile;
         }
 
-        public Tile GetTile(Index2 tileIndex)
+        public Tile GetTile(Point tileIndex)
         {
             return Tiles[tileIndex.GetFlatIndex(CHUNKSIZE_Y)];
         }
         public Tile GetTile(int x,int y)
         {
-            return GetTile(new Index2(x, y));
+            return GetTile(new Point(x, y));
         }
 
-        public void SetFlag(Index2 tileIndex, TileFlags flag)
+        public void SetFlag(Point tileIndex, TileFlags flag)
         {
            Flags[tileIndex.GetFlatIndex(CHUNKSIZE_Y)] |= flag;
         }
 
-        public void ResetFlag(Index2 tileIndex, TileFlags flag)
+        public void ResetFlag(Point tileIndex, TileFlags flag)
         {
             Flags[tileIndex.GetFlatIndex(CHUNKSIZE_Y)] &= ~flag;
         }
 
-        public TileFlags GetFlags(Index2 tileIndex)
+        public TileFlags GetFlags(Point tileIndex)
         {
             return Flags[tileIndex.GetFlatIndex(CHUNKSIZE_Y)];
         }
 
-        public void SetVisible(Index2 tileIndex)
+        public void SetVisible(Point tileIndex)
         {
             SetFlag(tileIndex, TileFlags.Visible);
             ResetFlag(tileIndex, TileFlags.PreVisible);
@@ -61,14 +62,14 @@ namespace AlphaCave.Core.Maps
             {
                 for(int y = tileIndex.Y-1; y <= tileIndex.Y+1; y++)
                 {
-                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || GetFlags(new Index2(x,y)).HasFlag(TileFlags.Visible))
+                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || GetFlags(new Point(x,y)).HasFlag(TileFlags.Visible))
                         continue;
-                    SetFlag(new Index2(x, y), TileFlags.PreVisible);
+                    SetFlag(new Point(x, y), TileFlags.PreVisible);
                 }
             }
         }
 
-        public void SetInVisible(Index2 tileIndex)
+        public void SetInVisible(Point tileIndex)
         {
             ResetFlag(tileIndex, TileFlags.Visible);
             ResetFlag(tileIndex, TileFlags.PreVisible);
@@ -76,30 +77,30 @@ namespace AlphaCave.Core.Maps
             {
                 for (int y = tileIndex.Y - 1; y <= tileIndex.Y + 1; y++)
                 {
-                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || !GetFlags(new Index2(x, y)).HasFlag(TileFlags.Visible))
+                    if (x < 0 || x > CHUNKSIZE_X || y < 0 || y > CHUNKSIZE_Y || !GetFlags(new Point(x, y)).HasFlag(TileFlags.Visible))
                         continue;
 
-                    SetFlag(new Index2(x, y), TileFlags.PreVisible);
+                    SetFlag(new Point(x, y), TileFlags.PreVisible);
                 }
             }
         }
 
         public bool IsPreVisible(int x, int y)
         {
-            return IsPreVisible(new Index2(x, y));
+            return IsPreVisible(new Point(x, y));
         }
 
-        public bool IsPreVisible(Index2 index)
+        public bool IsPreVisible(Point index)
         {
             return GetFlags(index).HasFlag(TileFlags.PreVisible);
         }
 
         public bool IsVisible(int x, int y)
         {
-            return IsVisible(new Index2(x, y));
+            return IsVisible(new Point(x, y));
         }
 
-        public bool IsVisible(Index2 index)
+        public bool IsVisible(Point index)
         {
             return GetFlags(index).HasFlag(TileFlags.Visible);
         }

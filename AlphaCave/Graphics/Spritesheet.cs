@@ -14,7 +14,7 @@ namespace AlphaCave.Graphics
         public Texture2DArray Textures { get; }
         public int Width { get; }
         public int Height { get; }
-        public Spritesheet(GraphicsDevice graphicsDevice, ContentManager content, string assetName, int tileWidth, int tileHeight, int tileCount, int tileSpacing = 1)
+        public Spritesheet(GraphicsDevice graphicsDevice, ContentManager content, string assetName, int tileWidth, int tileHeight, int tileSpacing = 1)
         {
             using (var text = content.Load<Texture2D>(assetName))
             {
@@ -22,7 +22,9 @@ namespace AlphaCave.Graphics
                 text.GetData(data);
 
                 Width = (text.Width + tileSpacing) / (tileWidth+tileSpacing);
-                Height = (int)Math.Ceiling((float)tileCount / Width);
+                Height = (text.Height+tileSpacing)/(tileHeight+tileSpacing);
+
+                int tileCount = Width * Height;
 
                 Textures = new Texture2DArray(graphicsDevice, 1, tileWidth, tileHeight, tileCount + 1);
                 var tileData = new uint[tileWidth * tileHeight];

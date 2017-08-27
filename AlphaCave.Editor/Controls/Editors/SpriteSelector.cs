@@ -10,13 +10,14 @@ using System.Windows.Forms;
 using System.IO;
 using AlphaCave.Core;
 using AlphaCave.Editor.Manager;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Controls.Editors
 {
     public partial class SpriteSelector : UserControl
     {
 
-        public Index2 SelectedSprite { get; private set; }
+        public EPoint SelectedSprite { get; private set; }
         public string SelectedSpriteSheet { get; private set; }
 
         public event EventHandler SelectedSpriteChanged;
@@ -56,7 +57,7 @@ namespace AlphaCave.Editor.Controls.Editors
                     }
 
                     SelectedSpriteSheet = sheet.Key;
-                    SelectedSprite = (Index2)v.SelectedSprite;
+                    SelectedSprite = (EPoint)v.SelectedSprite;
                     SelectedSpriteChanged?.Invoke(this, EventArgs.Empty);
                 };
 

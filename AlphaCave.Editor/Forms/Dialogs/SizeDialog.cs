@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Forms.Dialogs
 {
     public partial class SizeDialog : Form
     {
-        public Index2 ValueSize { get => valueSize;
+        public EPoint ValueSize { get => valueSize;
             set
             {
                 if (valueSize.Equals(value))
@@ -36,7 +37,7 @@ namespace AlphaCave.Editor.Forms.Dialogs
             }
         }
 
-        private Index2 valueSize = new Index2(2,2);
+        private EPoint valueSize = new EPoint(2,2);
         private int valueHeight = 2;
 
         public SizeDialog()

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using engenious;
 
 namespace AlphaCave.Core.Maps.Generator
 {
     public sealed class DebugGenerator : IMapGenerator
     {
-        public Chunk GenerateChunk(int id, Index2 index, Floor floor)
+        public Chunk GenerateChunk(int id, Point index, Floor floor)
         {
             Chunk chunk = new Chunk(index);
 
@@ -16,7 +17,7 @@ namespace AlphaCave.Core.Maps.Generator
             {
                 for (short y = 0; y < Chunk.CHUNKSIZE_Y; y++)
                 {
-                    var tileIndex = new Index2(x, y);
+                    var tileIndex = new Point(x, y);
 
                     chunk.SetTile(tileIndex, new Tile(tileIndex,TileBaseType.Grass));
 

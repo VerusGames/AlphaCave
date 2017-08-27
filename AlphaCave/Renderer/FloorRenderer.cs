@@ -1,14 +1,12 @@
-﻿using AlphaCave.Core.Maps;
+﻿using System;
+using System.Collections.Generic;
+using AlphaCave.Core.Maps;
 using AlphaCave.Graphics;
+using AlphaCave.Map;
 using engenious;
 using engenious.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AlphaCave.Map
+namespace AlphaCave.Renderer
 {
     class ChunkFloorRenderer : IDisposable
     {
@@ -48,7 +46,7 @@ namespace AlphaCave.Map
 
                     uint tileIndex = 0;
 
-                    var flags = Chunk.GetFlags(new Core.Index2(x, y));
+                    var flags = Chunk.GetFlags(new Point(x, y));
 
                     if (flags.HasFlag(TileFlags.Visible) || flags.HasFlag(TileFlags.PreVisible))
                     {
@@ -59,11 +57,11 @@ namespace AlphaCave.Map
                                 break;
                         }
                     }
-                    vertices.Add(new MapVertex(x + 0, y + 0, tileIndex));
-                    vertices.Add(new MapVertex(x + 1, y + 0, tileIndex));
+                    vertices.Add(new MapVertex(x + 0, y + 0,y, tileIndex));
+                    vertices.Add(new MapVertex(x + 1, y + 0,y, tileIndex));
 
-                    vertices.Add(new MapVertex(x + 0, y + 1, tileIndex));
-                    vertices.Add(new MapVertex(x + 1, y + 1, tileIndex));
+                    vertices.Add(new MapVertex(x + 0, y + 1,y, tileIndex));
+                    vertices.Add(new MapVertex(x + 1, y + 1,y, tileIndex));
                 }
             }
 

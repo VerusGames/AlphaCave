@@ -62,6 +62,16 @@
             <Format>0</Format>
           </Settings>
         </ContentFile>
+         <ContentFile>
+              <Name>TileSheetCharacter.png</Name>
+              <Processor>BitmapProcessor</Processor>
+              <Importer>Bitmap Importer</Importer>
+              <Settings>
+                <AutoGenerateMipMaps>False</AutoGenerateMipMaps>
+                <MipMapCount>1</MipMapCount>
+                <Format>0</Format>
+              </Settings>
+         </ContentFile>
       </Contents>
     </ContentFolder>
     <ContentFile>

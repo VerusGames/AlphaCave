@@ -51,11 +51,11 @@ namespace AlphaCave
             //t.Start();
         }
 
-        public static void RegisterSpritesheet(string sheet, int tileCount, int tileWidth = 16, int tileHeight = 16)
+        public static void RegisterSpritesheet(string sheet, int tileWidth = 16, int tileHeight = 16)
         {
             loadActions.Add((AssetManager am) =>
             {
-                am.Spritesheets.Add(sheet, new Spritesheet(am.game.GraphicsDevice, am.game.Content, "Spritesheets/" + sheet, tileWidth, tileHeight, tileCount));
+                am.Spritesheets.Add(sheet, new Spritesheet(am.game.GraphicsDevice, am.game.Content, "Spritesheets/" + sheet, tileWidth, tileHeight));
             });
         }
 
@@ -69,7 +69,8 @@ namespace AlphaCave
         {
             this.game = game;
 
-            RegisterSpritesheet("TileSheetDungeon", 522);
+            RegisterSpritesheet("TileSheetDungeon");
+            RegisterSpritesheet("TileSheetCharacter");
             //RegisterSpritesheet("TileSheetIndoor", 486);
             //RegisterSpritesheet("TileSheetOutdoor", 1767);
         }

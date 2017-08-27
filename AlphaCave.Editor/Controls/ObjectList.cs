@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using AlphaCave.Editor.Objects;
 using AlphaCave.Editor.Forms.Dialogs;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Controls
 {
@@ -67,7 +68,7 @@ namespace AlphaCave.Editor.Controls
             var sizeDialog = new SizeDialog();
             if (sizeDialog.ShowDialog() == DialogResult.OK)
             {
-                var structureObject = new StructureObject("Struktur", new Core.Index2(sizeDialog.ValueSize.X, sizeDialog.ValueSize.Y), sizeDialog.ValueHeight);
+                var structureObject = new StructureObject("Struktur", new EPoint(sizeDialog.ValueSize.X, sizeDialog.ValueSize.Y), sizeDialog.ValueHeight);
                 EditorObjects.Add(structureObject);
             }
         }

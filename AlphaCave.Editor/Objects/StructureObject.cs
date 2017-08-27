@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using AlphaCave.Editor.Manager;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Objects
 {
@@ -16,7 +17,7 @@ namespace AlphaCave.Editor.Objects
 
         public override string FilePath { get; set; }
 
-        public Index2 Size { get; set; }
+        public EPoint Size { get; set; }
 
         public int Height { get; set; }
 
@@ -25,16 +26,16 @@ namespace AlphaCave.Editor.Objects
         public TextureMap SouthMap { get; set; }
         public TextureMap WestMap { get; set; }
 
-        public StructureObject(string name, Index2 size, int height)
+        public StructureObject(string name, EPoint size, int height)
         {
             Name = name;
             Size = size;
             Height = height;
 
-            NorthMap = new TextureMap(new Index2(size.X, height+size.Y));
-            EastMap = new TextureMap(new Index2(size.Y, height + size.X));
-            SouthMap = new TextureMap(new Index2(size.X, height + size.Y));
-            WestMap = new TextureMap(new Index2(size.Y, height+size.X));
+            NorthMap = new TextureMap(new EPoint(size.X, height+size.Y));
+            EastMap = new TextureMap(new EPoint(size.Y, height + size.X));
+            SouthMap = new TextureMap(new EPoint(size.X, height + size.Y));
+            WestMap = new TextureMap(new EPoint(size.Y, height+size.X));
         }
 
         public override void InternalSerialize(BinaryWriter bw)
@@ -56,7 +57,7 @@ namespace AlphaCave.Editor.Objects
             var sizeX = br.ReadInt16();
             var sizeY = br.ReadInt16();
 
-            Size = new Index2(sizeX, sizeY);
+            Size = new EPoint(sizeX, sizeY);
 
             NorthMap = TextureMap.Deserialize(br);
             EastMap = TextureMap.Deserialize(br);

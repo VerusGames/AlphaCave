@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EPoint = engenious.Point;
 
 namespace AlphaCave.Editor.Objects
 {
@@ -14,9 +15,9 @@ namespace AlphaCave.Editor.Objects
     {
         public List<TextureLayer> Layers { get; set; } = new List<TextureLayer>();
 
-        public Index2 Size { get; private set; }
+        public EPoint Size { get; private set; }
 
-        public TextureMap(Index2 size, bool addStartingLayer = true)
+        public TextureMap(EPoint size, bool addStartingLayer = true)
         {
             Size = size;
 
@@ -48,7 +49,7 @@ namespace AlphaCave.Editor.Objects
             var sizeX = br.ReadInt16();
             var sizeY = br.ReadInt16();
             var layerCount = br.ReadInt32();
-            var texMap = new TextureMap(new Index2(sizeX, sizeY), false);
+            var texMap = new TextureMap(new EPoint(sizeX, sizeY), false);
             for (int i = 0; i < layerCount; i++)
                 texMap.Layers.Add(TextureLayer.Deserialize(br));
             return texMap;
@@ -90,13 +91,13 @@ namespace AlphaCave.Editor.Objects
 
         public string Name { get; set; }
 
-        public TextureLayer(Index2 size, string name)
+        public TextureLayer(EPoint size, string name)
         {
             Sprites = new SpriteObject[size.X, size.Y];
             for (int x = 0; x < Sprites.GetLength(0); x++)
             {
                 for (int y = 0; y < Sprites.GetLength(1); y++)
-                    Sprites[x, y] = new SpriteObject(new Index2(0, 0), "");
+                    Sprites[x, y] = new SpriteObject(new EPoint(0, 0), "");
             }
             Name = name;
         }
@@ -119,7 +120,7 @@ namespace AlphaCave.Editor.Objects
             var sizeX = br.ReadInt32();
             var sizeY = br.ReadInt32();
 
-            var tl = new TextureLayer(new Index2(sizeX, sizeY), name);
+            var tl = new TextureLayer(new EPoint(sizeX, sizeY), name);
 
             for (int x = 0; x < sizeX; x++)
             {
@@ -134,10 +135,10 @@ namespace AlphaCave.Editor.Objects
 
     public class SpriteObject
     {
-        public Index2 SpriteID { get; set; }
+        public EPoint SpriteID { get; set; }
         public string SpriteSheet { get; set; }
 
-        public SpriteObject(Index2 spriteId, string sheet)
+        public SpriteObject(EPoint spriteId, string sheet)
         {
             SpriteID = spriteId;
             SpriteSheet = sheet;
@@ -163,7 +164,7 @@ namespace AlphaCave.Editor.Objects
             if (spritesheet == "")
                 spritesheet = null;
 
-            return new SpriteObject(new Index2(x, y), spritesheet);
+            return new SpriteObject(new EPoint(x, y), spritesheet);
         }
     }
 }

@@ -17,9 +17,15 @@ namespace AlphaCave
     {
         public ScreenManager ScreenManager { get; private set; }
 
+        public SimulationComponent SimulationComponent { get; private set; }
+        
         public AlphaCaveGame()
         {
             ScreenManager = new ScreenManager(this);
+            
+            SimulationComponent = new SimulationComponent(this);
+            
+            Components.Add(SimulationComponent);
             Components.Add(ScreenManager);
         }
 

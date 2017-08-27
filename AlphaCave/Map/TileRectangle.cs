@@ -11,16 +11,16 @@ namespace AlphaCave.Map
 {
     public struct TileRectangle
     {
-        public readonly static TileRectangle StoneFloor = new TileRectangle(9, 2, "TileSheetDungeon");
-        public readonly static TileRectangle DirtFloor = new TileRectangle(9, 7, "TileSheetDungeon");
-        public readonly static TileRectangle WallUpLower = new TileRectangle(13, 4, "TileSheetDungeon");
-        public readonly static TileRectangle WallUpUpper = new TileRectangle(13, 2, "TileSheetDungeon");
-        public readonly static TileRectangle WallTop = new TileRectangle(10, 0, "TileSheetDungeon");
-        public readonly static TileRectangle WallRight = new TileRectangle(9, 7, "TileSheetDungeon");
+        public static readonly TileRectangle StoneFloor = new TileRectangle(9, 2, "TileSheetDungeon");
+        public static readonly TileRectangle DirtFloor = new TileRectangle(9, 7, "TileSheetDungeon");
+        public static readonly TileRectangle WallUpLower = new TileRectangle(13, 4, "TileSheetDungeon");
+        public static readonly TileRectangle WallUpUpper = new TileRectangle(13, 2, "TileSheetDungeon");
+        public static readonly TileRectangle WallTop = new TileRectangle(10, 0, "TileSheetDungeon");
+        public static readonly TileRectangle WallRight = new TileRectangle(9, 7, "TileSheetDungeon");
 
 
 
-        public Index2 TileIndex;
+        public Point TileIndex;
         public string SpriteSheetName;
 
         public const short TileSize = 16;
@@ -32,7 +32,7 @@ namespace AlphaCave.Map
 
         private TileRectangle(short x, short y, string spriteSheetName)
         {
-            TileIndex = new Index2(x, y);
+            TileIndex = new Point(x, y);
             SpriteSheetName = spriteSheetName;
             Rectangle = new Rectangle(TileIndex.X * (TileSize + TileSpace),
                                         TileIndex.Y * (TileSize + TileSpace),

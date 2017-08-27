@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using engenious;
 
 namespace AlphaCave.Core.Maps
 {
@@ -28,7 +29,7 @@ namespace AlphaCave.Core.Maps
     
     public static class  WallTypeHelper
     {
-        public static WallType GetWallType(Index2 index, Chunk chunk)
+        public static WallType GetWallType(Point index, Chunk chunk)
         {
             int bitMask = 0;
 
@@ -50,24 +51,24 @@ namespace AlphaCave.Core.Maps
         }
 
         // Key=Wandtyp, Value=TileIndex
-        public static Dictionary<WallType, Index2[]> StoneWallLookupTable = new Dictionary<WallType, Index2[]>()
+        public static Dictionary<WallType, Point[]> StoneWallLookupTable = new Dictionary<WallType, Point[]>()
         {
-            {WallType.Solo, new[] {new Index2(9,1),new Index2(14,2),new Index2(14,4)} },
-            {WallType.Down, new[] {new Index2(8,0)} },
-            {WallType.Left, new[] {new Index2(11,0), new Index2(15,2),new Index2(15,4)} },
-            {WallType.Up, new[] {new Index2(8,1),new Index2(14,2),new Index2(14,4)} },
-            {WallType.Right, new[] {new Index2(9,0), new Index2(12,2),new Index2(12,4)} },
-            {WallType.RightDown, new[] {new Index2(12,0)} },
-            {WallType.LeftDown, new[] { new Index2(13,0)} },
-            {WallType.LeftUp, new[] { new Index2(13,1), new Index2(15,2),new Index2(15,4) }},
-            {WallType.RightUp, new[] { new Index2(12,1), new Index2(12,2),new Index2(12,4)} },
-            {WallType.HorizontalMiddle, new[] { new Index2(10,0), new Index2(13,2),new Index2(9,4) }},
-            {WallType.VerticalMiddle, new[] { new Index2(11,1)} },
-            {WallType.LeftUpRight, new[] { new Index2(15,0),new Index2(13,2),new Index2(9,4) }},
-            {WallType.UpRightDown, new[] { new Index2(14,0)}},
-            {WallType.LeftDownRight, new[] { new Index2(15,1)} },
-            {WallType.LeftUpDown,new[] {new Index2(14,1) }},
-            {WallType.LeftUpRightDown, new[] {new Index2(10,1)}},
+            {WallType.Solo, new[] {new Point(9,1),new Point(14,2),new Point(14,4)} },
+            {WallType.Down, new[] {new Point(8,0)} },
+            {WallType.Left, new[] {new Point(11,0), new Point(15,2),new Point(15,4)} },
+            {WallType.Up, new[] {new Point(8,1),new Point(14,2),new Point(14,4)} },
+            {WallType.Right, new[] {new Point(9,0), new Point(12,2),new Point(12,4)} },
+            {WallType.RightDown, new[] {new Point(12,0)} },
+            {WallType.LeftDown, new[] { new Point(13,0)} },
+            {WallType.LeftUp, new[] { new Point(13,1), new Point(15,2),new Point(15,4) }},
+            {WallType.RightUp, new[] { new Point(12,1), new Point(12,2),new Point(12,4)} },
+            {WallType.HorizontalMiddle, new[] { new Point(10,0), new Point(13,2),new Point(9,4) }},
+            {WallType.VerticalMiddle, new[] { new Point(11,1)} },
+            {WallType.LeftUpRight, new[] { new Point(15,0),new Point(13,2),new Point(9,4) }},
+            {WallType.UpRightDown, new[] { new Point(14,0)}},
+            {WallType.LeftDownRight, new[] { new Point(15,1)} },
+            {WallType.LeftUpDown,new[] {new Point(14,1) }},
+            {WallType.LeftUpRightDown, new[] {new Point(10,1)}},
         };
     }
 }
