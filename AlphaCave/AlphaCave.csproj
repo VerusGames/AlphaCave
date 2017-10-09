@@ -54,6 +54,9 @@
     <Compile Include="AlphaCaveGame.cs" />
     <Compile Include="AssetManager.cs" />
     <Compile Include="Components\SimulationComponent.cs" />
+    <Compile Include="GameObjects\Components\EntityComponentCollection.cs" />
+    <Compile Include="GameObjects\Components\IEntityComponent.cs" />
+    <Compile Include="GameObjects\Entities\ComponentEntity.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
     <Compile Include="Map\TileRectangle.cs" />
     <Compile Include="Map\MapVertex.cs" />
