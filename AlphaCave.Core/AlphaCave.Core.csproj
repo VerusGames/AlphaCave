@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="Coordinate.cs" />
     <Compile Include="Entities\Character.cs" />
+    <Compile Include="Entities\Components\EntityComponentCollection.cs" />
+    <Compile Include="Entities\Components\IEntityComponent.cs" />
     <Compile Include="Entities\NPC.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Maps\Chunk.cs" />

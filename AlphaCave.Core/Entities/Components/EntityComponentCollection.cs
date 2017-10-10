@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace AlphaCave.GameObjects.Components
+namespace AlphaCave.Core.Entities.Components
 {
     public class EntityComponentCollection : List<IEntityComponent>
     {
